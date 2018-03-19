@@ -9,19 +9,20 @@ public class PlayerControler : MonoBehaviour {
     float JumpPower;
     float vertVelosity;
     float minVertVelosity;
-
     public PlayerFoot foot;
-    
+    SkillFunctions skill = new SkillFunctions();
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
         this.speed = 0.8f;
         this.glavity = 0.05f;
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -1.0f;
-	}
+        skill.HighJump(ref this.JumpPower);
+  
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -29,8 +30,8 @@ public class PlayerControler : MonoBehaviour {
 
         float axis = Input.GetAxis("Horizontal");
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
-
-        if (Input.GetButtonDown("Fire1"))
+       
+        if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
             this.vertVelosity = this.JumpPower;
         }

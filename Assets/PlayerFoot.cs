@@ -23,6 +23,7 @@ public class PlayerFoot : MonoBehaviour {
     }
     private void OnTriggerExit(Collider other)
     {
-        stayGround = false;
+        if (other.tag == "Ground")
+            stayGround = false;
     }
 }

@@ -13,6 +13,7 @@ public class PlayerControler : MonoBehaviour {
     public PlayerFoot foot;
     Skill skill = new Skill();
     SkillType[] id = new SkillType[MAXSKILLNUM];
+    bool isJumping;
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
@@ -21,6 +22,7 @@ public class PlayerControler : MonoBehaviour {
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -1.0f;
+        this.isJumping = false;
         for(int i = 0; i < MAXSKILLNUM; ++i)
         {
             this.id[i] = SkillType.NONE;
@@ -36,7 +38,7 @@ public class PlayerControler : MonoBehaviour {
                 case SkillType.NONE:
                     break;
                 case SkillType.HIGH_JUMP:
-                    skill.HighJump(ref JumpPower,this.foot.stayGround);
+                    skill.HighJump(ref JumpPower,this.isJumping);
                     break;
             }
         }
@@ -48,19 +50,16 @@ public class PlayerControler : MonoBehaviour {
 
         float axis = Input.GetAxis("Horizontal");
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
-
-        
-        
         SkillActivate();
-
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
-          
+            this.isJumping = true;
             this.vertVelosity = this.JumpPower;
         }
         if (this.foot.stayGround && this.vertVelosity < -0.1f)
         {
             this.vertVelosity = -0.1f;
+            this.isJumping = false;
         }
         vector += new Vector3(0.0f, this.vertVelosity, 0.0f);
         this.vertVelosity -= this.glavity;

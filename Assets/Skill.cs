@@ -15,18 +15,21 @@ public enum SkillType
 public class Skill {
 
     //スキルの使用回数
-    int quantity = 1;
-    public void HighJump(ref float jumppow,bool hitGround)
+   public int quantity = 1;
+    public void HighJump(ref float jumppow,bool isJump)
     {
-        
-        if (Input.GetButtonDown("Fire2") && quantity > 0)   //四角ボタンとR1同時押しでハイ
+        ////四角ボタンを押した後にR1押すとハイジャンプ
+        //ジャンプ力
+        //着地フラグ
+        //戻り値なし
+        if (Input.GetButtonDown("Fire2") && quantity > 0 && !isJump)   
         {
-            jumppow *= 2.0f;
-            --quantity;
+            jumppow = 2.0f;
+            --quantity; 
         }
-        else if(hitGround)
+        else if(isJump)
         {
-            jumppow = 1;
+            jumppow = 1;    //着地したら元のジャンプ力にもどす
         }  
     }
 }

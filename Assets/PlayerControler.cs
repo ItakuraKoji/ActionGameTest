@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour {
+    const int MAXSKILLNUM = 5;
     CharacterController controler;
     float speed;
     float glavity;
@@ -10,8 +11,8 @@ public class PlayerControler : MonoBehaviour {
     float vertVelosity;
     float minVertVelosity;
     public PlayerFoot foot;
-    SkillFunctions skill = new SkillFunctions();
-
+    Skill skill = new Skill();
+    SkillType[] id = new SkillType[MAXSKILLNUM];
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
@@ -20,19 +21,41 @@ public class PlayerControler : MonoBehaviour {
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -1.0f;
-        skill.HighJump(ref this.JumpPower);
-  
+        for(int i = 0; i < MAXSKILLNUM; ++i)
+        {
+            this.id[i] = SkillType.NONE;
+        }
+        this.id[1] = SkillType.HIGH_JUMP;
     }
-	
-	// Update is called once per frame
-	void Update () {
+	void SkillActivate()
+    {
+        for (int i = 0; i < MAXSKILLNUM; ++i)
+        {
+            switch (this.id[i])
+            {
+                case SkillType.NONE:
+                    break;
+                case SkillType.HIGH_JUMP:
+                    skill.HighJump(ref JumpPower,this.foot.stayGround);
+                    break;
+            }
+        }
+
+    }
+    // Update is called once per frame
+    void Update () {
         Vector3 vector = new Vector3(0.0f, 0.0f, 0.0f);
 
         float axis = Input.GetAxis("Horizontal");
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
-       
+
+        
+        
+        SkillActivate();
+
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
+          
             this.vertVelosity = this.JumpPower;
         }
         if (this.foot.stayGround && this.vertVelosity < -0.1f)

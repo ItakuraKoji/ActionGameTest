@@ -23,19 +23,19 @@ public class cameraGun : MonoBehaviour {
             if (Input.GetButtonDown("Fire3"))
              {
                 Skill.quantity[1] += 5;
-                Debug.Log("わーい");
+                Debug.Log("ジャンプ+5");
              }
             }
             else
             {
             //何も取得しない
            
-        }
+            }
         
 	}
 
     //敵がジャンプしているか
-    bool    EnemyJump()
+    bool   EnemyJump()
     {
         return jumpObj.jumpFlag;
     }

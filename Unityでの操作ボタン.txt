@@ -1,0 +1,24 @@
+<Unity(Windows上)での割り当て>
+
+X axis:左スティック左右 (中心:0,左:マイナス1,右:プラス1)
+Y axis:左スティック上下 (中心:0,上:マイナス1,下:プラス1)
+3rd axis:右スティック左右 (中心:0,左:マイナス1,右:プラス1)
+4th axis:L2(アナログ) (初期値:マイナス1,押し切るとプラス1)
+5th axis:R2(アナログ) (初期値:マイナス1,押し切るとプラス1)
+6th axis:右スティック上下 (中心:0,上:マイナス1,下:プラス1)
+7th axis:十字キー左右 (中心:0,左:マイナス1,右:プラス1)
+8th axis:十字キー上下 (中心:0,下:マイナス1,上:プラス1)
+joystick button 0:Square
+joystick button 1:Cross
+joystick button 2:Circle
+joystick button 3:Triangle
+joystick button 4:L1
+joystick button 5:R1
+joystick button 6:L2(デジタル)
+joystick button 7:R2(デジタル)
+joystick button 8:Share
+joystick button 9:Option
+joystick button 10:左スティック押し込み(L3)
+joystick button 11:右スティック押し込み(R3)
+joystick button 12:PSボタン
+joystick button 13:トラックパッドのクリック

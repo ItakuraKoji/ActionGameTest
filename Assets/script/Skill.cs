@@ -33,7 +33,7 @@ public class Skill: MonoBehaviour{
         if (Input.GetButtonDown("Fire2") && quantity[(int)SkillType.HIGH_JUMP] > 0 && !isJump)   
         {
             jumppow = 2.0f;
-            --quantity[1]; 
+            --quantity[(int)SkillType.HIGH_JUMP]; 
         }
         else if(isJump)
         {

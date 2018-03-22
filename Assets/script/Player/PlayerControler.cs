@@ -17,7 +17,7 @@ public class PlayerControler : MonoBehaviour {
     public PlayerFoot foot;
     Skill skill = new Skill();
     SkillType[] id = new SkillType[MAXSKILLNUM];
-
+    
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
@@ -51,6 +51,7 @@ public class PlayerControler : MonoBehaviour {
                 case SkillType.PUNCH:
                     break;
                 case SkillType.SLASH:
+                    skill.Slash();
                     break;
             }
         }

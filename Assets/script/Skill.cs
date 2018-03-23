@@ -15,15 +15,20 @@ public enum SkillType
 
 public class Skill: MonoBehaviour{
 
-    //スキルの使用回数
-    public static int[] quantity = new int [(int)SkillType.MAX];
-    public Skill()
+    public GameObject playBackObj;
+    private CreateAnim animObj;
+    
+    public void Start()
     {
         for (int i = 0; i < (int)SkillType.MAX; ++i)
         {
             quantity[i] = 1;
         }
+        animObj = playBackObj.GetComponent<CreateAnim>();
     }
+    //スキルの使用回数
+    public static int[] quantity = new int [(int)SkillType.MAX];
+    
     public void HighJump(ref float jumppow,bool isJump)
     {
         ////四角ボタンを押した後にR1押すとハイジャンプ
@@ -42,12 +47,13 @@ public class Skill: MonoBehaviour{
        
 
     }
-    public void Slash()
+    public void Slash(Vector3 pos,Vector3 angle)
     {
         if (Input.GetButtonDown("Attack") && quantity[(int)SkillType.SLASH] > 0)  //Yボタン
         {
             Debug.Log("切った");
             --quantity[(int)SkillType.SLASH];
+            animObj.CreateObj(pos, angle);
         }
     }
 }

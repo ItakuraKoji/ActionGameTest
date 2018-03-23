@@ -161,4 +161,12 @@ public class Jump : MonoBehaviour {
            
         }
     }
+
+    //------------------------------------
+    //ジャンプしているかを返す
+    //------------------------------------
+    bool    NowJumpDuring()
+    {
+        return jumpFlag;
+    }
 }

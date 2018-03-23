@@ -15,9 +15,12 @@ public class PlayerControler : MonoBehaviour {
     public bool isJumping;
 
     public PlayerFoot foot;
-    Skill skill = new Skill();
+    public GameObject skillObj;
+    private Skill skill;// = new Skill();
     SkillType[] id = new SkillType[MAXSKILLNUM];
-    
+
+    float direction = 90f;
+    float summonX = 3.6f;
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
@@ -35,6 +38,9 @@ public class PlayerControler : MonoBehaviour {
         this.id[1] = SkillType.HIGH_JUMP;
         this.id[2] = SkillType.PUNCH;
         this.id[3] = SkillType.SLASH;
+
+        //追加
+        skill = skillObj.GetComponent<Skill>();
     }
 	void SkillActivate()
     {
@@ -51,12 +57,18 @@ public class PlayerControler : MonoBehaviour {
                 case SkillType.PUNCH:
                     break;
                 case SkillType.SLASH:
-                    skill.Slash();
+                    Vector3 pos = new Vector3(
+                        this.transform.position.x + summonX,
+                        this.transform.position.y,
+                        this.transform.position.z);
+                    skill.Slash(pos,new Vector3(0,direction,0));
                     break;
             }
         }
 
     }
+
+    
     // Update is called once per frame
     void Update () {
         Vector3 vector = new Vector3(0.0f, 0.0f, 0.0f);
@@ -65,6 +77,8 @@ public class PlayerControler : MonoBehaviour {
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
 
        
+       if(axis < 0) { direction = -90;  summonX = -4.6f; }
+       if(axis > 0) { direction = 90;  summonX = 4.6f; }
 
         SkillActivate();
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)

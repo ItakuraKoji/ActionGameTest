@@ -13,11 +13,15 @@ public class cameraGun : MonoBehaviour
     public GameObject attackObj;
     private CreateAnim createObj;
 
+    //
     private bool isTrigger;
     public bool isjumpHit;
     public bool isSwordHit;
+    public float speed;
+    int dir;
     int time;
     public int type;
+    //
 
     const int MAXTIME = 60;
     // Use this for initialization
@@ -26,7 +30,9 @@ public class cameraGun : MonoBehaviour
         isTrigger = false;
         isjumpHit = false;
         isSwordHit = false;
-    time = MAXTIME;
+        dir = 1;
+        speed = 1f;
+        time = MAXTIME;
         createObj = attackObj.GetComponent<CreateAnim>();
        
 
@@ -43,9 +49,8 @@ public class cameraGun : MonoBehaviour
          //カメラのシャッターを押す
         if (other.gameObject.tag == "Goblin")
         {
+
             isjumpHit = true;
-            Debug.Log("J_Hit!!!!!!!!");
-           
             if (jumpObj.jumpFlag)
             {
                 gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
@@ -76,7 +81,6 @@ public class cameraGun : MonoBehaviour
                     Debug.Log("スラッシュ+5");
                 }
             }
-            Debug.Log("S_Hit!!!!!!!!");
         }
         else
         {
@@ -92,7 +96,15 @@ public class cameraGun : MonoBehaviour
         Vector3 pos = player.transform.position;    //プレイヤーの位置を取得
         if (type == 1)
         {
-
+            //カメラ向き
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                dir = 1;
+            }
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                dir = -1;
+            }
             if (time >= MAXTIME)
             {
                 gun.transform.position = new Vector3(pos.x, pos.y, pos.z);
@@ -100,6 +112,7 @@ public class cameraGun : MonoBehaviour
             if (Input.GetButtonDown("Fire3"))
             {
                 isTrigger = true;
+              
             }
             if (isTrigger)
             {
@@ -113,7 +126,7 @@ public class cameraGun : MonoBehaviour
                 }
                 if (!isSwordHit && !isjumpHit)
                 {
-                    gun.transform.position += new Vector3(1f, 0, 0);
+                    gun.transform.position += new Vector3(speed * dir, 0, 0);
                 }
 
                 --time;
@@ -148,8 +161,4 @@ public class cameraGun : MonoBehaviour
 
     }
 
-    private void LateUpdate()
-    {
-       
-    }
 }

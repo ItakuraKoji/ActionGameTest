@@ -12,15 +12,15 @@ public class cameraGun : MonoBehaviour
 
     public GameObject attackObj;
     private CreateAnim createObj;
+ 
 
-  
     public int type;
 
-    //private float createObjAngle = 0.0f;  //生成するオブジェクトの向き
+   
     // Use this for initialization
     void Start()
     {
-      
+        
         createObj = attackObj.GetComponent<CreateAnim>();
 
         if (type == 1)
@@ -32,13 +32,22 @@ public class cameraGun : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //カメラのシャッターを押す
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Skeleton" ||
+             other.gameObject.tag == "Goblin")
+        {
+            gun.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+        }
+        else
+        {
+            gun.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+        }
+            //カメラのシャッターを押す
+        if (other.gameObject.tag == "Goblin")
         {
             Debug.Log("J_Hit!!!!!!!!");
             if (jumpObj.jumpFlag)
             {
-
+                gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
                 //使用回数を+5する
                 if (Input.GetButtonDown("Fire3"))
                 {
@@ -46,11 +55,13 @@ public class cameraGun : MonoBehaviour
                     Debug.Log("ジャンプ+5");
                 }
             }
+          
         }
-        if (other.gameObject.tag == "Enemy")
+        if (other.gameObject.tag == "Skeleton")
         {
             if (sword.animState == SkeletonAnim.AnimState.Attack)
             {
+                gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
                 if (Input.GetButtonDown("Fire3"))
                 {
                     Skill.quantity[(int)SkillType.SLASH] += 5;
@@ -59,6 +70,8 @@ public class cameraGun : MonoBehaviour
             }
             Debug.Log("S_Hit!!!!!!!!");
         }
+      
+
     }
     // Update is called once per frame
     void Update()

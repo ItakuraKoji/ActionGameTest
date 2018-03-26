@@ -14,10 +14,10 @@ public class cameraGun : MonoBehaviour
     private CreateAnim createObj;
 
     //
-    private bool isTrigger;
-    public bool isjumpHit;
-    public bool isSwordHit;
-    public float speed;
+    bool isTrigger;
+    bool isjumpHit;
+    bool isSwordHit;
+    float speed;
     int dir;
     int time;
     public int type;

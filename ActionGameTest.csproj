@@ -78,7 +78,6 @@
     <Compile Include="Assets\AddInfo2\CameraErea\CameraErea.cs" />
     <Compile Include="Assets\AddInfo2\CameraErea\CreateAnim.cs" />
     <Compile Include="Assets\AddInfo2\Swordver2\AttackMotion.cs" />
-    <Compile Include="Assets\AddInfo2\zakoScript.cs" />
     <Compile Include="Assets\EnemyData\Eenemy\Sword\FantasyMonster\Skeleton\SkelScript\Hit.cs" />
     <Compile Include="Assets\EnemyData\Eenemy\Sword\FantasyMonster\Skeleton\SkelScript\Player.cs" />
     <Compile Include="Assets\EnemyData\Eenemy\Sword\FantasyMonster\Skeleton\SkelScript\PlayerHit.cs" />
@@ -93,6 +92,7 @@
     <Compile Include="Assets\script\Player\PlayerFoot.cs" />
     <Compile Include="Assets\script\Skill.cs" />
     <Compile Include="Assets\script\cameraGun.cs" />
+    <Compile Include="Assets\script\zakoScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\EnemyData\Eenemy\jump\C&amp;C_Pack\Goblin_rouge\readme.txt" />

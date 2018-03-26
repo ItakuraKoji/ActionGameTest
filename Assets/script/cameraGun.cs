@@ -62,11 +62,6 @@ public class cameraGun : MonoBehaviour
                     Debug.Log("ジャンプ+5");
                 }
             }
-            else
-            {
-                isjumpHit = false;
-            }
-          
         }
         if (other.gameObject.tag == "Skeleton")
         {
@@ -82,18 +77,36 @@ public class cameraGun : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            isSwordHit = false;
-        }
-      
-
     }
 
-    //色が変わらなくなるのを防ぐ
    void FixedUpdate()
     {
+        //このフレームにおける初期値を設定
+        //そのあとに判定があったら値を上書きしている
+        isSwordHit = false;
+        isjumpHit = false;
+        gun.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
+    }
+
+    //プレイヤーの動きに連動してるので、プレイヤーが動いた後に更新を行うのが好ましい
+    void LateUpdate()
+    {
         Vector3 pos = player.transform.position;    //プレイヤーの位置を取得
+        if (type == 0)
+        {
+            //カメラ向き
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                gun.transform.position = new Vector3(pos.x + 3.6f, pos.y, pos.z);
+
+            }
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                gun.transform.position = new Vector3(pos.x - 3.6f, pos.y, pos.z);
+
+            }
+        }
+
         if (type == 1)
         {
             //カメラ向き
@@ -112,7 +125,7 @@ public class cameraGun : MonoBehaviour
             if (Input.GetButtonDown("Fire3"))
             {
                 isTrigger = true;
-              
+
             }
             if (isTrigger)
             {
@@ -137,27 +150,6 @@ public class cameraGun : MonoBehaviour
                 }
             }
         }
-        gun.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        Vector3 pos = player.transform.position;    //プレイヤーの位置を取得
-        if (type == 0)
-        {
-            //カメラ向き
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                gun.transform.position = new Vector3(pos.x + 3.6f, pos.y, pos.z);
-
-            }
-            if (Input.GetAxis("Horizontal") < 0)
-            {
-                gun.transform.position = new Vector3(pos.x - 3.6f, pos.y, pos.z);
-
-            }
-        }
-      
 
     }
 

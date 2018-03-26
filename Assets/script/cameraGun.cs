@@ -12,7 +12,7 @@ public class cameraGun : MonoBehaviour
 
     public GameObject attackObj;
     private CreateAnim createObj;
-
+    
     //
     bool isTrigger;
     bool isjumpHit;
@@ -27,6 +27,7 @@ public class cameraGun : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        gun.GetComponent<MeshRenderer>().enabled = false;
         isTrigger = false;
         isjumpHit = false;
         isSwordHit = false;
@@ -141,10 +142,11 @@ public class cameraGun : MonoBehaviour
                 {
                     gun.transform.position += new Vector3(speed * dir, 0, 0);
                 }
-
+                gun.GetComponent<MeshRenderer>().enabled = true;
                 --time;
                 if (time <= 0)
                 {
+                    gun.GetComponent<MeshRenderer>().enabled = false;
                     isTrigger = false;
                     time = MAXTIME;
                 }

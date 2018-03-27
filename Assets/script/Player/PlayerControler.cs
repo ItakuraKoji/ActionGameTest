@@ -28,7 +28,7 @@ public class PlayerControler : MonoBehaviour {
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
-        this.speed = 0.8f;
+        this.speed = 0.6f;
         this.glavity = 0.05f;
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
@@ -82,7 +82,6 @@ public class PlayerControler : MonoBehaviour {
         Vector3 vector = new Vector3(0.0f, 0.0f, 0.0f);
 
         float axis = Input.GetAxis("Horizontal");
-        vector += new Vector3(axis * speed, 0.0f, 0.0f);
 
 
         if (axis < 0) { direction = -90; summonX = -4.6f; }
@@ -118,6 +117,9 @@ public class PlayerControler : MonoBehaviour {
             this.vertVelosity = -0.1f;
             this.isJumping = false;
         }
+
+        //横移動 ＆ 縦移動
+        vector += new Vector3(axis * speed, 0.0f, 0.0f);
         vector += new Vector3(0.0f, this.vertVelosity, 0.0f);
         this.vertVelosity -= this.glavity;
         if(this.vertVelosity < this.minVertVelosity)

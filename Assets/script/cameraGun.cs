@@ -12,8 +12,9 @@ public class cameraGun : MonoBehaviour
 
     public GameObject attackObj;
     private CreateAnim createObj;
-    
+
     //
+    GameObject rockonTarget;
     bool isTrigger;
     bool isjumpHit;
     bool isSwordHit;
@@ -28,6 +29,7 @@ public class cameraGun : MonoBehaviour
     void Start()
     {
         gun.GetComponent<SpriteRenderer>().enabled = false;
+        this.rockonTarget = null;
         isTrigger = false;
         isjumpHit = false;
         isSwordHit = false;
@@ -41,8 +43,46 @@ public class cameraGun : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        //とにかくカーソルが出現してないときは判定しない
+        //敵キャラ以外には判定を行わない
+        if (!this.isTrigger || other.gameObject.tag != "Enemy")
+        {
+            return;
+        }
+        this.rockonTarget = other.gameObject;
+
+
         //押されたシャッターボタンの情報
         int shatter = GetButtonID();
+
+        EnemyState state = other.GetComponent<EnemyState>();
+        if(state.GetSkillType() == SkillType.NONE)
+        {
+            gun.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+        }
+        else
+        {
+            gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+            SkillType skill = state.GetSkillType();
+
+            if (shatter >= 0)
+            {
+                Skill.quantity[(int)skill] += 5;
+                if (type == 2)
+                {
+                    //操作タイプ2だけ特別、割り当て場所は固定
+                    this.player.GetComponent<PlayerControler>().SetSkill(1, skill);
+                }
+                else
+                {
+                    this.player.GetComponent<PlayerControler>().SetSkill(shatter, skill);
+                }
+            }
+        }
+
+        //こっから下は古い処理、そのうち消す
+        return;
+
 
         if (other.gameObject.tag == "Skeleton" ||
              other.gameObject.tag == "Goblin")
@@ -53,6 +93,7 @@ public class cameraGun : MonoBehaviour
          //カメラのシャッターを押す
         if (other.gameObject.tag == "Goblin")
         {
+            this.rockonTarget = other.gameObject;
 
             isjumpHit = true;
             if (jumpObj.jumpFlag)
@@ -78,6 +119,8 @@ public class cameraGun : MonoBehaviour
         }
         if (other.gameObject.tag == "Skeleton")
         {
+            this.rockonTarget = other.gameObject;
+
             isSwordHit = true;
             if (sword.animState == SkeletonAnim.AnimState.Attack)
             {
@@ -105,6 +148,7 @@ public class cameraGun : MonoBehaviour
     {
         //このフレームにおける初期値を設定
         //そのあとに判定があったら値を上書きしている
+        this.rockonTarget = null;
         isSwordHit = false;
         isjumpHit = false;
         gun.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
@@ -188,13 +232,9 @@ public class cameraGun : MonoBehaviour
 
         if (isTrigger)
         {
-            if (isjumpHit)
+            if (this.rockonTarget != null)
             {
-                gun.transform.position = jumpObj.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
-            }
-            if (isSwordHit)
-            {
-                gun.transform.position = sword.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
+                gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
             }
             if (!isSwordHit && !isjumpHit)
             {
@@ -240,13 +280,9 @@ public class cameraGun : MonoBehaviour
 
         if (isTrigger)
         {
-            if (isjumpHit)
+            if (this.rockonTarget != null)
             {
-                gun.transform.position = jumpObj.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
-            }
-            if (isSwordHit)
-            {
-                gun.transform.position = sword.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
+                gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
             }
             if (!isSwordHit && !isjumpHit)
             {

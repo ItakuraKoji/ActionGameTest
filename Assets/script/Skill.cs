@@ -38,7 +38,7 @@ public class Skill: MonoBehaviour{
         if (quantity[(int)SkillType.HIGH_JUMP] > 0 && !isJump)   
         {
             jumppow = 2.0f;
-            --quantity[(int)SkillType.HIGH_JUMP]; 
+            --quantity[(int)SkillType.HIGH_JUMP];
         }
         //仮として、スキルの残数を返す
         return quantity[(int)SkillType.HIGH_JUMP];

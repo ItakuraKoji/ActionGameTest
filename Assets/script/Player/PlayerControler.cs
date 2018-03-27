@@ -52,14 +52,14 @@ public class PlayerControler : MonoBehaviour {
             case SkillType.NONE:
                 break;
             case SkillType.HIGH_JUMP:
+                numSkillUseage = skill.HighJump(ref JumpPower, this.isJumping);
                 if (this.foot.stayGround)
                 {
                     //ジャンプ力を挙げたジャンプ処理
-                    numSkillUseage = skill.HighJump(ref JumpPower, this.isJumping);
                     this.isJumping = true;
                     this.vertVelosity = this.JumpPower;
-                    this.JumpPower = 1;
                 }
+                this.JumpPower = 1;
                 break;
             case SkillType.PUNCH:
                 break;
@@ -99,10 +99,11 @@ public class PlayerControler : MonoBehaviour {
             Debug.Log(button[i]);
             //押してたら
             int numUsage = SkillActivate(this.id[i]);
-                if(numUsage <= 0)
-                {
-                    this.id[i] = SkillType.NONE;
-                }
+            if (numUsage <= 0)
+            {
+                Debug.Log(this.id[i]);
+                this.id[i] = SkillType.NONE;
+            }
         }
 
         //ジャンプ
@@ -136,5 +137,15 @@ public class PlayerControler : MonoBehaviour {
         }
 
         this.id[position] = type;
+    }
+    //参照用
+    public SkillType GetSkill(int position)
+    {
+        if (position >= MAXSKILLNUM || position < 0)
+        {
+            return SkillType.NONE;
+        }
+
+        return this.id[position];
     }
 }

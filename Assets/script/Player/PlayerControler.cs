@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour {
     const int MAXSKILLNUM = 4;
     CharacterController controler;
-
+    public cameraGun cameraGun;
 
     float speed;
     float glavity;
@@ -17,10 +17,14 @@ public class PlayerControler : MonoBehaviour {
     public PlayerFoot foot;
     public GameObject skillObj;
     private Skill skill;// = new Skill();
+
+    //スキルを入れる配列
     SkillType[] id = new SkillType[MAXSKILLNUM];
 
     float direction = 90f;
     float summonX = 3.6f;
+
+
     // Use this for initialization
     void Start () {
         this.controler = this.gameObject.GetComponent<CharacterController>();
@@ -30,42 +34,46 @@ public class PlayerControler : MonoBehaviour {
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -1.0f;
         this.isJumping = false;
-        for(int i = 0; i < MAXSKILLNUM; ++i)
-        {
-            this.id[i] = SkillType.NONE;
-        }
-        //仮処理。撮影したらこんな感じになってその動作が使えるようになる
-        this.id[1] = SkillType.HIGH_JUMP;
-        this.id[2] = SkillType.PUNCH;
-        this.id[3] = SkillType.SLASH;
+
+        //後々、敵からとったスキルが格納される
+        this.id[0] = SkillType.NONE;
+        this.id[1] = SkillType.NONE;
+        this.id[2] = SkillType.NONE;
+        this.id[3] = SkillType.NONE;
 
         //追加
         skill = skillObj.GetComponent<Skill>();
     }
-	void SkillActivate()
+	int SkillActivate(SkillType skillID)
     {
-        for (int i = 0; i < MAXSKILLNUM; ++i)
+        int numSkillUseage = 0;
+        switch (skillID)
         {
-            switch (this.id[i])
-            {
-                case SkillType.NONE:
-                    break;
-                case SkillType.HIGH_JUMP:
-                    skill.HighJump(ref JumpPower,this.isJumping);
-               
-                    break;
-                case SkillType.PUNCH:
-                    break;
-                case SkillType.SLASH:
-                    Vector3 pos = new Vector3(
-                        this.transform.position.x + summonX,
-                        this.transform.position.y,
-                        this.transform.position.z);
-                    skill.Slash(pos,new Vector3(0,direction,0));
-                    break;
-            }
+            case SkillType.NONE:
+                break;
+            case SkillType.HIGH_JUMP:
+                if (this.foot.stayGround)
+                {
+                    //ジャンプ力を挙げたジャンプ処理
+                    numSkillUseage = skill.HighJump(ref JumpPower, this.isJumping);
+                    this.isJumping = true;
+                    this.vertVelosity = this.JumpPower;
+                    this.JumpPower = 1;
+                }
+                break;
+            case SkillType.PUNCH:
+                break;
+            case SkillType.SLASH:
+                Vector3 pos = new Vector3(
+                    this.transform.position.x + summonX,
+                    this.transform.position.y,
+                    this.transform.position.z);
+                numSkillUseage = skill.Slash(pos, new Vector3(0, direction, 0));
+                break;
         }
 
+        //スキルの残数を返す
+        return numSkillUseage;
     }
 
     
@@ -76,15 +84,30 @@ public class PlayerControler : MonoBehaviour {
         float axis = Input.GetAxis("Horizontal");
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
 
-       
-       if(axis < 0) { direction = -90;  summonX = -4.6f; }
-       if(axis > 0) { direction = 90;  summonX = 4.6f; }
 
-        SkillActivate();
+        if (axis < 0) { direction = -90; summonX = -4.6f; }
+        if (axis > 0) { direction = 90; summonX = 4.6f; }
+
+        //〇　×　□　△　の順で、押されたらそれぞれに対応したスキルを発動
+        string[] button = { "Play1", "Play2", "Play3", "Play4" };
+        for(int i = 0; i < 4; ++i)
+        {
+            if (!Input.GetButtonDown(button[i]) || cameraGun.IsCameraUse())
+            {
+                continue;
+            }
+            Debug.Log(button[i]);
+            //押してたら
+            int numUsage = SkillActivate(this.id[i]);
+                if(numUsage <= 0)
+                {
+                    this.id[i] = SkillType.NONE;
+                }
+        }
+
+        //ジャンプ
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
-  
-           
             this.isJumping = true;
             this.vertVelosity = this.JumpPower;
         }
@@ -102,5 +125,16 @@ public class PlayerControler : MonoBehaviour {
         }
 
         this.controler.Move(vector);
+    }
+
+    //外からプレイヤーのスキルを変更する関数
+    public void SetSkill(int position, SkillType type)
+    {
+        if(position >= MAXSKILLNUM || position < 0)
+        {
+            return;
+        }
+
+        this.id[position] = type;
     }
 }

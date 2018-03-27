@@ -20,7 +20,7 @@ public class AnimControl : MonoBehaviour {
     void LateUpdate()
     {
 
-        if (Input.GetButtonDown("Fire1") && player.isJumping)
+        if (player.isJumping)
         {
             animator.SetBool("isjump", true);
         }

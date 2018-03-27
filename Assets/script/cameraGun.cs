@@ -27,7 +27,11 @@ public class cameraGun : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gun.GetComponent<MeshRenderer>().enabled = false;
+        if(type == 1)
+        {
+            gun.GetComponent<MeshRenderer>().enabled = false;
+        }
+        
         isTrigger = false;
         isjumpHit = false;
         isSwordHit = false;

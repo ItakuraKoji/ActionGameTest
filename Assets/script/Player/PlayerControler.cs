@@ -14,6 +14,8 @@ public class PlayerControler : MonoBehaviour {
     float minVertVelosity;
     public bool isJumping;
 
+    public AudioClip jumpclip;
+    private AudioSource jumpSe;
     public PlayerFoot foot;
     public GameObject skillObj;
     private Skill skill;// = new Skill();
@@ -29,6 +31,8 @@ public class PlayerControler : MonoBehaviour {
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -1.0f;
+        this.jumpSe = gameObject.AddComponent<AudioSource>();
+        this.jumpSe.clip = this.jumpclip;
         this.isJumping = false;
         for(int i = 0; i < MAXSKILLNUM; ++i)
         {
@@ -83,8 +87,8 @@ public class PlayerControler : MonoBehaviour {
         SkillActivate();
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
-  
-           
+
+            jumpSe.Play();
             this.isJumping = true;
             this.vertVelosity = this.JumpPower;
         }

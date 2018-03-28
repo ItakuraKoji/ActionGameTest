@@ -14,6 +14,8 @@ public class PlayerControler : MonoBehaviour {
     float minVertVelosity;
     public bool isJumping;
 
+    public AudioClip jumpclip;
+    private AudioSource jumpSe;
     public PlayerFoot foot;
     public GameObject skillObj;
     private Skill skill;// = new Skill();
@@ -33,6 +35,8 @@ public class PlayerControler : MonoBehaviour {
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
         this.minVertVelosity = -4.0f;
+        this.jumpSe = gameObject.AddComponent<AudioSource>();
+        this.jumpSe.clip = this.jumpclip;
         this.isJumping = false;
 
         //後々、敵からとったスキルが格納される
@@ -108,6 +112,7 @@ public class PlayerControler : MonoBehaviour {
         //ジャンプ
         if (Input.GetButtonDown("Fire1") && this.foot.stayGround)
         {
+            jumpSe.Play();
             this.isJumping = true;
             this.vertVelosity = this.JumpPower;
         }

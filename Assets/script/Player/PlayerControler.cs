@@ -32,7 +32,7 @@ public class PlayerControler : MonoBehaviour {
         this.glavity = 0.05f;
         this.JumpPower = 1.0f;
         this.vertVelosity = 0.0f;
-        this.minVertVelosity = -1.0f;
+        this.minVertVelosity = -4.0f;
         this.isJumping = false;
 
         //後々、敵からとったスキルが格納される
@@ -84,8 +84,8 @@ public class PlayerControler : MonoBehaviour {
         float axis = Input.GetAxis("Horizontal");
 
 
-        if (axis < 0) { direction = -90; summonX = -4.6f; }
-        if (axis > 0) { direction = 90; summonX = 4.6f; }
+        if (axis < 0) { direction = 180; summonX = -4.6f; }
+        if (axis > 0) { direction = 0; summonX = 4.6f; }
 
         //〇　×　□　△　の順で、押されたらそれぞれに対応したスキルを発動
         string[] button = { "Play1", "Play2", "Play3", "Play4" };

@@ -5,8 +5,6 @@ using UnityEngine;
 public class cameraGun : MonoBehaviour
 {
 
-    public Jump jumpObj;
-    public SkeletonAnim sword;
     public GameObject gun;
     public GameObject player;
 
@@ -16,8 +14,6 @@ public class cameraGun : MonoBehaviour
     //
     GameObject rockonTarget;
     bool isTrigger;
-    bool isjumpHit;
-    bool isSwordHit;
     float speed;
     int dir;
     int time;
@@ -31,8 +27,6 @@ public class cameraGun : MonoBehaviour
         gun.GetComponent<SpriteRenderer>().enabled = false;
         this.rockonTarget = null;
         isTrigger = false;
-        isjumpHit = false;
-        isSwordHit = false;
         dir = 1;
         speed = 1f;
         time = MAXTIME;
@@ -71,74 +65,18 @@ public class cameraGun : MonoBehaviour
                 if (type == 2)
                 {
                     //操作タイプ2だけ特別、割り当て場所は固定
-                    this.player.GetComponent<PlayerControler>().SetSkill(1, skill);
+                    if (skill == SkillType.HIGH_JUMP)
+                    {
+                        this.player.GetComponent<PlayerControler>().SetSkill(1, skill);
+                    }
+                    if(skill == SkillType.SLASH)
+                    {
+                        this.player.GetComponent<PlayerControler>().SetSkill(3, skill);
+                    }
                 }
                 else
                 {
                     this.player.GetComponent<PlayerControler>().SetSkill(shatter, skill);
-                }
-            }
-        }
-
-        //こっから下は古い処理、そのうち消す
-        return;
-
-
-        if (other.gameObject.tag == "Skeleton" ||
-             other.gameObject.tag == "Goblin")
-        {
-            gun.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
-          
-        }
-         //カメラのシャッターを押す
-        if (other.gameObject.tag == "Goblin")
-        {
-            this.rockonTarget = other.gameObject;
-
-            isjumpHit = true;
-            if (jumpObj.jumpFlag)
-            {
-                gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-              
-                //使用回数を+5する
-                if(shatter >= 0)
-                {
-                    Skill.quantity[(int)SkillType.HIGH_JUMP] += 5;
-                    if (type == 2)
-                    {
-                        //操作タイプ2だけ特別、割り当て場所は固定
-                        this.player.GetComponent<PlayerControler>().SetSkill(1, SkillType.HIGH_JUMP);
-                    }
-                    else
-                    {
-                        this.player.GetComponent<PlayerControler>().SetSkill(shatter, SkillType.HIGH_JUMP);
-                    }
-                    Debug.Log("ジャンプ+5");
-                }
-            }
-        }
-        if (other.gameObject.tag == "Skeleton")
-        {
-            this.rockonTarget = other.gameObject;
-
-            isSwordHit = true;
-            if (sword.animState == SkeletonAnim.AnimState.Attack)
-            {
-           
-                gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-                if (shatter >= 0)
-                {
-                    Skill.quantity[(int)SkillType.SLASH] += 5;
-                    if (type == 2)
-                    {
-                        //操作タイプ2だけ特別、割り当て場所は固定
-                        this.player.GetComponent<PlayerControler>().SetSkill(3, SkillType.SLASH);
-                    }
-                    else
-                    {
-                        this.player.GetComponent<PlayerControler>().SetSkill(shatter, SkillType.SLASH);
-                    }
-                    Debug.Log("スラッシュ+5");
                 }
             }
         }
@@ -149,8 +87,6 @@ public class cameraGun : MonoBehaviour
         //このフレームにおける初期値を設定
         //そのあとに判定があったら値を上書きしている
         this.rockonTarget = null;
-        isSwordHit = false;
-        isjumpHit = false;
         gun.GetComponent<Renderer>().material.color = new Color(255, 255, 255);
     }
 
@@ -236,7 +172,7 @@ public class cameraGun : MonoBehaviour
             {
                 gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
             }
-            if (!isSwordHit && !isjumpHit)
+            else
             {
                 gun.transform.position += new Vector3(speed * dir * ((float)time / (float)MAXTIME), 0, 0);
             }
@@ -284,7 +220,7 @@ public class cameraGun : MonoBehaviour
             {
                 gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
             }
-            if (!isSwordHit && !isjumpHit)
+            else
             {
                 gun.transform.position += new Vector3(speed * dir, 0, 0);
             }

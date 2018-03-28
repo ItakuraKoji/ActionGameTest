@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7d815f26922ebfe4493c1b4c56fa4d58
-timeCreated: 1521550758
+timeCreated: 1522155202
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -66,6 +66,19 @@ TextureImporter:
     21300118: resource2_59
     21300120: resource2_60
     21300122: resource2_61
+    21300124: resource2_62
+    21300126: resource2_63
+    21300128: resource2_64
+    21300130: resource2_65
+    21300132: resource2_66
+    21300134: resource2_67
+    21300136: resource2_68
+    21300138: resource2_69
+    21300140: resource2_70
+    21300142: resource2_71
+    21300144: resource2_72
+    21300146: resource2_73
+    21300148: resource2_74
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -954,6 +967,175 @@ TextureImporter:
         serializedVersion: 2
         x: 256
         y: 272
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_62
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_63
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_64
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_65
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 40
+        height: 48
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_66
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 224
+        width: 40
+        height: 48
+      alignment: 9
+      pivot: {x: 0.4, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_67
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_68
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_69
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_70
+      rect:
+        serializedVersion: 2
+        x: 272
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_71
+      rect:
+        serializedVersion: 2
+        x: 304
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_72
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_73
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 224
+        width: 32
+        height: 48
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: resource2_74
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 224
         width: 32
         height: 48
       alignment: 7

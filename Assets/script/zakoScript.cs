@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class zakoScript : MonoBehaviour
 {
-    float timeCnt = 0.0f;
     bool hitFlag = false;
     public ParticleSystem dethEffect;
     public float dethTime = 90.0f;
@@ -29,18 +28,7 @@ public class zakoScript : MonoBehaviour
     {
         if (hitFlag)
         {
-            timeCnt++;
-        }
-        else
-        {
-            timeCnt = 0;
-        }
-        if(timeCnt >= 70)
-        {
-            dethEffect.Play();
-        }
-        if (timeCnt >= dethTime)
-        {
+            Instantiate(this.dethEffect, this.transform.position, this.transform.rotation);
             Debug.Log("雑魚の叫び: うあ～");
             Destroy(this.gameObject);
             ;

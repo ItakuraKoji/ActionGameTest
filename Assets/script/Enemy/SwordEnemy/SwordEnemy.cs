@@ -9,7 +9,6 @@ public class SwordEnemy : MonoBehaviour {
     public GameObject attackEffect;
 
     //ここら辺プレイヤーの使いまわし
-    float jumpPower;
     float glavity;
     float horiVelosity;
     float vertVelosity;
@@ -21,7 +20,6 @@ public class SwordEnemy : MonoBehaviour {
     {
         this.state = this.GetComponent<EnemyState>();
         this.controller = this.GetComponent<CharacterController>();
-        this.jumpPower = 1.0f;
         this.glavity = 0.05f;
         this.horiVelosity = 0.0f;
         this.vertVelosity = 0.0f;

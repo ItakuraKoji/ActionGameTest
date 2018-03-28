@@ -18,7 +18,7 @@ public class PlayerControler : MonoBehaviour {
     private AudioSource jumpSe;
     public PlayerFoot foot;
     public GameObject skillObj;
-    private Skill skill;// = new Skill();
+    private Skill skill;
 
     //スキルを入れる配列
     SkillType[] id = new SkillType[MAXSKILLNUM];

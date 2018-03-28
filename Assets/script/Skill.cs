@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 //スキルの実態を管理するクラス
 //今のところは1回使ったら使用できなくなる
+
 public enum SkillType
 {
    NONE,
@@ -14,14 +15,21 @@ public enum SkillType
 };
 
 public class Skill: MonoBehaviour{
-
+  
     public GameObject playBackObj;
     private CreateAnim animObj;
+
+
+    public AudioClip slashclip;
+    private AudioSource slashSe;
     //スキルの使用回数
     public static int[] quantity = new int[(int)SkillType.MAX];
 
     public void Start()
     {
+        this.slashSe = gameObject.AddComponent<AudioSource>();
+        this.slashSe.clip = this.slashclip;
+
         for (int i = 0; i < (int)SkillType.MAX; ++i)
         {
             quantity[i] = 0;
@@ -47,6 +55,7 @@ public class Skill: MonoBehaviour{
     {
         if (quantity[(int)SkillType.SLASH] > 0)  //Yボタン
         {
+            slashSe.Play();
             Debug.Log("切った");
             --quantity[(int)SkillType.SLASH];
             animObj.CreateObj(pos, angle);

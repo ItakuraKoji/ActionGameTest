@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControler : MonoBehaviour {
-    //やっぱり個別に数を持たせる
-    public struct SkillInfo
-    {
-        public int numUsage;
-        public SkillType type;
-    }
-
-
+public class PlayerControler : MonoBehaviour
+{
     const int MAXSKILLNUM = 4;
     CharacterController controler;
     public cameraGun cameraGun;
@@ -21,6 +14,7 @@ public class PlayerControler : MonoBehaviour {
     float vertVelosity;
     float minVertVelosity;
     public bool isJumping;
+    public int life = 20;
 
     public AudioClip jumpclip;
     private AudioSource jumpSe;
@@ -36,7 +30,8 @@ public class PlayerControler : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         this.controler = this.gameObject.GetComponent<CharacterController>();
         this.speed = 0.6f;
         this.glavity = 0.05f;
@@ -56,7 +51,11 @@ public class PlayerControler : MonoBehaviour {
         //追加
         skill = skillObj.GetComponent<Skill>();
     }
+<<<<<<< HEAD
 	bool SkillActivate(SkillType skillID)
+=======
+    int SkillActivate(SkillType skillID)
+>>>>>>> master
     {
         bool isUsed = false;
         switch (skillID)
@@ -90,9 +89,10 @@ public class PlayerControler : MonoBehaviour {
         return isUsed;
     }
 
-    
+
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         Vector3 vector = new Vector3(0.0f, 0.0f, 0.0f);
 
         float axis = Input.GetAxis("Horizontal");
@@ -103,7 +103,7 @@ public class PlayerControler : MonoBehaviour {
 
         //〇　×　□　△　の順で、押されたらそれぞれに対応したスキルを発動
         string[] button = { "Play1", "Play2", "Play3", "Play4" };
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
         {
             if (!Input.GetButtonDown(button[i]) || cameraGun.IsCameraUse())
             {
@@ -141,7 +141,7 @@ public class PlayerControler : MonoBehaviour {
         vector += new Vector3(axis * speed, 0.0f, 0.0f);
         vector += new Vector3(0.0f, this.vertVelosity, 0.0f);
         this.vertVelosity -= this.glavity;
-        if(this.vertVelosity < this.minVertVelosity)
+        if (this.vertVelosity < this.minVertVelosity)
         {
             this.vertVelosity = this.minVertVelosity;
         }
@@ -152,7 +152,7 @@ public class PlayerControler : MonoBehaviour {
     //外からプレイヤーのスキルを変更する関数
     public void SetSkill(int position, SkillType type, int numUsage)
     {
-        if(position >= MAXSKILLNUM || position < 0)
+        if (position >= MAXSKILLNUM || position < 0)
         {
             return;
         }
@@ -172,5 +172,45 @@ public class PlayerControler : MonoBehaviour {
         }
 
         return this.id[position];
+    }
+
+    //プレイヤーの体力を減らす処理
+    public void DecrementLife(int damage)
+    {
+        if (Active())
+        {
+            for (int i = 0; i < damage; ++i)
+            {
+                if (Active())
+                {
+                    life--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Died();
+        }
+    }
+
+    //プレイヤーの体力が0になった
+    bool Died()
+    {
+        if (life <= 0)
+        {
+            Debug.Log("プレイヤーが死亡します");
+            return true;
+        }
+        return false;
+    }
+
+    bool Active()
+    {
+        if (life > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

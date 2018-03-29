@@ -58,11 +58,7 @@ public class PlayerControler : MonoBehaviour
         //追加
         skill = skillObj.GetComponent<Skill>();
     }
-<<<<<<< HEAD
 	bool SkillActivate(SkillType skillID)
-=======
-    int SkillActivate(SkillType skillID)
->>>>>>> master
     {
         bool isUsed = false;
         switch (skillID)

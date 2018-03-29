@@ -10,6 +10,8 @@ public class cameraGun : MonoBehaviour
 
     public GameObject attackObj;
     private CreateAnim createObj;
+    public GameObject effect;
+    public int numSkill;
 
     //
     GameObject rockonTarget;
@@ -57,26 +59,26 @@ public class cameraGun : MonoBehaviour
         else
         {
             gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-            SkillType skill = state.GetSkillType();
 
+            SkillType skill = state.GetSkillType();
             if (shatter >= 0)
             {
-                Skill.quantity[(int)skill] += 5;
+                Instantiate(this.effect, this.transform.position, this.transform.rotation);
                 if (type == 2)
                 {
                     //操作タイプ2だけ特別、割り当て場所は固定
                     if (skill == SkillType.HIGH_JUMP)
                     {
-                        this.player.GetComponent<PlayerControler>().SetSkill(1, skill);
+                        this.player.GetComponent<PlayerControler>().SetSkill(1, skill, this.numSkill);
                     }
                     if(skill == SkillType.SLASH)
                     {
-                        this.player.GetComponent<PlayerControler>().SetSkill(3, skill);
+                        this.player.GetComponent<PlayerControler>().SetSkill(3, skill, this.numSkill);
                     }
                 }
                 else
                 {
-                    this.player.GetComponent<PlayerControler>().SetSkill(shatter, skill);
+                    this.player.GetComponent<PlayerControler>().SetSkill(shatter, skill, this.numSkill);
                 }
             }
         }

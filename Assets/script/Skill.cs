@@ -43,7 +43,7 @@ public class Skill: MonoBehaviour{
         //ジャンプ力
         //着地フラグ
         //戻り値なし
-        if (quantity[(int)SkillType.HIGH_JUMP] > 0 && !isJump)   
+        if (!isJump)   
         {
             jumppow = 2.0f;
             --quantity[(int)SkillType.HIGH_JUMP];
@@ -53,13 +53,9 @@ public class Skill: MonoBehaviour{
     }
     public int Slash(Vector3 pos,Vector3 angle)
     {
-        if (quantity[(int)SkillType.SLASH] > 0)  //Yボタン
-        {
-            slashSe.Play();
-            Debug.Log("切った");
-            --quantity[(int)SkillType.SLASH];
-            animObj.CreateObj(pos, angle);
-        }
+        slashSe.Play();
+        --quantity[(int)SkillType.SLASH];
+        animObj.CreateObj(pos, angle);
         //仮として、スキルの残数を返す
         return quantity[(int)SkillType.SLASH];
     }

@@ -33,7 +33,7 @@ public class cameraGun : MonoBehaviour
         this.rockonTarget = null;
         isTrigger = false;
         dir = 1;
-        speed = 1f;
+        speed = 1.5f;
         time = MAXTIME;
         createObj = attackObj.GetComponent<CreateAnim>();
 
@@ -52,47 +52,15 @@ public class cameraGun : MonoBehaviour
         }
         this.rockonTarget = other.gameObject;
 
-
-        //押されたシャッターボタンの情報
-        int shatter = GetButtonID();
-
+        //色を変えて見やすくする
         EnemyState state = other.GetComponent<EnemyState>();
         if (state.GetSkillType() == SkillType.NONE)
         {
             gun.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
-            if (shatter >= 0)
-            {
-                this.audioSource.clip = this.cameraSE;
-                this.audioSource.Play();
-            }
         }
         else
         {
             gun.GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-
-            SkillType skill = state.GetSkillType();
-            if (shatter >= 0)
-            {
-                this.audioSource.clip = this.cameraHitSE;
-                this.audioSource.Play();
-                Instantiate(this.effect, this.transform.position, this.transform.rotation);
-                if (type == 2)
-                {
-                    //操作タイプ2だけ特別、割り当て場所は固定
-                    if (skill == SkillType.HIGH_JUMP)
-                    {
-                        this.player.GetComponent<PlayerControler>().SetSkill(1, skill, this.numSkill);
-                    }
-                    if (skill == SkillType.SLASH)
-                    {
-                        this.player.GetComponent<PlayerControler>().SetSkill(3, skill, this.numSkill);
-                    }
-                }
-                else
-                {
-                    this.player.GetComponent<PlayerControler>().SetSkill(shatter, skill, this.numSkill);
-                }
-            }
         }
     }
 
@@ -107,19 +75,42 @@ public class cameraGun : MonoBehaviour
     //プレイヤーの動きに連動してるので、プレイヤーが動いた後に更新を行うのが好ましい
     void LateUpdate()
     {
-
-        if (type == 0 || type == 1)
+        //離すと撮影
+        if (Input.GetButtonUp("Fire3") && this.rockonTarget != null)
         {
-            if (Input.GetButton("Fire3"))
+            EnemyState state = this.rockonTarget.GetComponent<EnemyState>();
+            if (state.GetSkillType() == SkillType.NONE)
             {
-                this.isTrigger = true;
-                gun.GetComponent<SpriteRenderer>().enabled = true;
+                this.audioSource.clip = this.cameraSE;
+                this.audioSource.Play();
             }
             else
             {
-                this.isTrigger = false;
-                gun.GetComponent<SpriteRenderer>().enabled = false;
+                SkillType skill = state.GetSkillType();
+                this.audioSource.clip = this.cameraHitSE;
+                this.audioSource.Play();
+                Instantiate(this.effect, this.transform.position, this.transform.rotation);
+                //割り当て場所は固定
+                if (skill == SkillType.HIGH_JUMP)
+                {
+                    this.player.GetComponent<PlayerControler>().SetSkill(1, skill, this.numSkill);
+                }
+                if (skill == SkillType.SLASH)
+                {
+                    this.player.GetComponent<PlayerControler>().SetSkill(3, skill, this.numSkill);
+                }
             }
+        }
+
+        if (Input.GetButton("Fire3"))
+        {
+            this.isTrigger = true;
+            gun.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else
+        {
+            this.isTrigger = false;
+            gun.GetComponent<SpriteRenderer>().enabled = false;
         }
 
         //板倉案、カメラは固定
@@ -133,13 +124,6 @@ public class cameraGun : MonoBehaviour
         {
             Type1Update();
         }
-
-        //佐藤案、L1でカメラ射出し、L1で撮影
-        if(type == 2)
-        {
-            Type2Update();
-        }
-
     }
 
     void Type0Update()
@@ -177,14 +161,14 @@ public class cameraGun : MonoBehaviour
 
         if (time >= MAXTIME)
         {
-            gun.transform.position = new Vector3(pos.x, pos.y + 0.5f, pos.z);
+            gun.transform.position = new Vector3(pos.x, pos.y + 2.0f, pos.z);
         }
 
         if (isTrigger)
         {
             if (this.rockonTarget != null)
             {
-                gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
+                gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.6f, 0.0f);
             }
             else
             {
@@ -199,54 +183,6 @@ public class cameraGun : MonoBehaviour
             }
         }
     }
-    void Type2Update()
-    {
-        Vector3 pos = player.transform.position;    //プレイヤーの位置を取得
-        this.transform.parent = null;
-        //カメラ向き
-        if (!isTrigger)
-        {
-            if (Input.GetAxis("Horizontal") > 0)
-            {
-                dir = 1;
-            }
-            if (Input.GetAxis("Horizontal") < 0)
-            {
-                dir = -1;
-            }
-            time = MAXTIME;
-        }
-
-        if (time >= MAXTIME)
-        {
-            gun.transform.position = new Vector3(pos.x, pos.y + 0.5f, pos.z);
-        }
-
-        if (Input.GetButtonDown("Fire3"))
-        {
-            this.isTrigger = true;
-            gun.GetComponent<SpriteRenderer>().enabled = true;
-        }
-
-        if (isTrigger)
-        {
-            if (this.rockonTarget != null)
-            {
-                gun.transform.position = this.rockonTarget.transform.position + new Vector3(0.0f, 0.8f, 0.0f);
-            }
-            else
-            {
-                gun.transform.position += new Vector3(speed * dir, 0, 0);
-            }
-            --time;
-            if (time <= 0)
-            {
-                time = 0;
-                gun.GetComponent<SpriteRenderer>().enabled = false;
-                isTrigger = false;
-            }
-        }
-    }
 
     //ボタン入力に応じて数字を返す。例によって仮の実装
     int GetButtonID()
@@ -255,24 +191,13 @@ public class cameraGun : MonoBehaviour
         {
             return -1;
         }
-        if (type == 0 || type == 1)
+        //〇　×　□　△　の順で、押されたらそれぞれに対応したスキルを発動
+        string[] button = { "Play1", "Play2", "Play3", "Play4" };
+        for (int i = 0; i < 4; ++i)
         {
-            //〇　×　□　△　の順で、押されたらそれぞれに対応したスキルを発動
-            string[] button = { "Play1", "Play2", "Play3", "Play4" };
-            for (int i = 0; i < 4; ++i)
+            if (Input.GetButtonDown(button[i]))
             {
-                if (Input.GetButtonDown(button[i]))
-                {
-                    return i;
-                }
-            }
-        }else
-        {
-            //操作タイプ2の場合
-            if (Input.GetButtonDown("Fire3"))
-            {
-                //負の数じゃないならぶっちゃけなんでもいい
-                return 100;
+                return i;
             }
         }
 

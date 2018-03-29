@@ -13,6 +13,7 @@ public class PlayerControler : MonoBehaviour {
     float vertVelosity;
     float minVertVelosity;
     public bool isJumping;
+    public int life = 20;
 
     public AudioClip jumpclip;
     private AudioSource jumpSe;
@@ -154,5 +155,45 @@ public class PlayerControler : MonoBehaviour {
         }
 
         return this.id[position];
+    }
+
+    //プレイヤーの体力を減らす処理
+    public void DecrementLife(int damage)
+    {
+        if (Active())
+        {
+            for (int i = 0; i < damage; ++i)
+            {
+                if (Active())
+                {
+                    life--;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Died();
+        }
+    }
+
+    //プレイヤーの体力が0になった
+    bool    Died()
+    {
+        if (life <= 0)
+        {
+            Debug.Log("プレイヤーが死亡します");
+            return true;
+        }
+        return false;
+    }
+
+    bool    Active()
+    {
+        if(life > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

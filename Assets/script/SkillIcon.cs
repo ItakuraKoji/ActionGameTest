@@ -12,6 +12,7 @@ public class SkillIcon : MonoBehaviour {
     public Sprite noneIcon;
     public Sprite slashIcon;
     public Sprite jumpIcon;
+    public Text HPText;
 
     // Use this for initialization
     void Start () {
@@ -53,5 +54,6 @@ public class SkillIcon : MonoBehaviour {
             }
         }
 
+        this.HPText.text = "HP:" + this.player.life.ToString();
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class HitDamage : MonoBehaviour {
 
     public int giveDamage = 1;      //与えるダメージ
+    public GameObject damageEffect;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,7 @@ public class HitDamage : MonoBehaviour {
             PlayerControler playerCon;
             playerCon = other.gameObject.GetComponent<PlayerControler>();
             playerCon.DecrementLife(giveDamage);
+            Instantiate(this.damageEffect, other.transform.position, other.transform.rotation);
         }
     }
 

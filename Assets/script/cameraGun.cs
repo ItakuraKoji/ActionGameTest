@@ -11,6 +11,9 @@ public class cameraGun : MonoBehaviour
     public GameObject attackObj;
     private CreateAnim createObj;
     public GameObject effect;
+    public AudioClip cameraSE;
+    public AudioClip cameraHitSE;
+    AudioSource audioSource;
     public int numSkill;
 
     //
@@ -33,8 +36,10 @@ public class cameraGun : MonoBehaviour
         speed = 1f;
         time = MAXTIME;
         createObj = attackObj.GetComponent<CreateAnim>();
-       
 
+        this.audioSource = this.gameObject.AddComponent<AudioSource>();
+        this.audioSource.spatialBlend = 0.0f;
+        this.audioSource.volume = 0.6f;
     }
 
     private void OnTriggerStay(Collider other)
@@ -52,9 +57,14 @@ public class cameraGun : MonoBehaviour
         int shatter = GetButtonID();
 
         EnemyState state = other.GetComponent<EnemyState>();
-        if(state.GetSkillType() == SkillType.NONE)
+        if (state.GetSkillType() == SkillType.NONE)
         {
             gun.GetComponent<Renderer>().material.color = new Color(255, 255, 0);
+            if (shatter >= 0)
+            {
+                this.audioSource.clip = this.cameraSE;
+                this.audioSource.Play();
+            }
         }
         else
         {
@@ -63,6 +73,8 @@ public class cameraGun : MonoBehaviour
             SkillType skill = state.GetSkillType();
             if (shatter >= 0)
             {
+                this.audioSource.clip = this.cameraHitSE;
+                this.audioSource.Play();
                 Instantiate(this.effect, this.transform.position, this.transform.rotation);
                 if (type == 2)
                 {
@@ -71,7 +83,7 @@ public class cameraGun : MonoBehaviour
                     {
                         this.player.GetComponent<PlayerControler>().SetSkill(1, skill, this.numSkill);
                     }
-                    if(skill == SkillType.SLASH)
+                    if (skill == SkillType.SLASH)
                     {
                         this.player.GetComponent<PlayerControler>().SetSkill(3, skill, this.numSkill);
                     }

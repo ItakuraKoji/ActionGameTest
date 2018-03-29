@@ -11,8 +11,9 @@ public class PlayerFoot : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	}
+	void FixedUpdate () {
+        stayGround = false;
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -23,7 +24,5 @@ public class PlayerFoot : MonoBehaviour {
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Ground")
-            stayGround = false;
     }
 }

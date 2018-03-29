@@ -25,6 +25,7 @@ public class PlayerControler : MonoBehaviour
 
     public AudioClip jumpclip;
     public AudioClip highJumpClip;
+    public AudioClip damageClip;
     private AudioSource jumpSe;
     public PlayerFoot foot;
     public GameObject skillObj;
@@ -191,6 +192,9 @@ public class PlayerControler : MonoBehaviour
             {
                 if (Active())
                 {
+                    this.jumpSe.volume = 1.0f;
+                    this.jumpSe.clip = this.damageClip;
+                    jumpSe.Play();
                     life--;
                 }
                 else

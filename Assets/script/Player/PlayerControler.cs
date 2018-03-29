@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControler : MonoBehaviour {
+    //やっぱり個別に数を持たせる
+    public struct SkillInfo
+    {
+        public int numUsage;
+        public SkillType type;
+    }
+
+
     const int MAXSKILLNUM = 4;
     CharacterController controler;
     public cameraGun cameraGun;
@@ -21,7 +29,7 @@ public class PlayerControler : MonoBehaviour {
     private Skill skill;
 
     //スキルを入れる配列
-    SkillType[] id = new SkillType[MAXSKILLNUM];
+    SkillInfo[] id = new SkillInfo[MAXSKILLNUM];
 
     float direction = 90f;
     float summonX = 3.6f;
@@ -40,30 +48,31 @@ public class PlayerControler : MonoBehaviour {
         this.isJumping = false;
 
         //後々、敵からとったスキルが格納される
-        this.id[0] = SkillType.NONE;
-        this.id[1] = SkillType.NONE;
-        this.id[2] = SkillType.NONE;
-        this.id[3] = SkillType.NONE;
+        this.id[0].type = SkillType.NONE;
+        this.id[1].type = SkillType.NONE;
+        this.id[2].type = SkillType.NONE;
+        this.id[3].type = SkillType.NONE;
 
         //追加
         skill = skillObj.GetComponent<Skill>();
     }
-	int SkillActivate(SkillType skillID)
+	bool SkillActivate(SkillType skillID)
     {
-        int numSkillUseage = 0;
+        bool isUsed = false;
         switch (skillID)
         {
             case SkillType.NONE:
                 break;
             case SkillType.HIGH_JUMP:
-                numSkillUseage = skill.HighJump(ref JumpPower, this.isJumping);
                 if (this.foot.stayGround)
                 {
-                    //ジャンプ力を挙げたジャンプ処理
+                    //ジャンプ力を上げたジャンプ処理
+                    skill.HighJump(ref JumpPower, this.isJumping);
                     this.isJumping = true;
                     this.vertVelosity = this.JumpPower;
+                    this.JumpPower = 1;
+                    isUsed = true;
                 }
-                this.JumpPower = 1;
                 break;
             case SkillType.PUNCH:
                 break;
@@ -72,12 +81,13 @@ public class PlayerControler : MonoBehaviour {
                     this.transform.position.x + summonX,
                     this.transform.position.y,
                     this.transform.position.z);
-                numSkillUseage = skill.Slash(pos, new Vector3(0, direction, 0));
+                skill.Slash(pos, new Vector3(0, direction, 0));
+                isUsed = true;
                 break;
         }
 
         //スキルの残数を返す
-        return numSkillUseage;
+        return isUsed;
     }
 
     
@@ -101,11 +111,15 @@ public class PlayerControler : MonoBehaviour {
             }
             Debug.Log(button[i]);
             //押してたら
-            int numUsage = SkillActivate(this.id[i]);
-            if (numUsage <= 0)
+            if (SkillActivate(this.id[i].type))
+            {
+                //スキルを実際に使ったら消費
+                --this.id[i].numUsage;
+            }
+            if (this.id[i].numUsage <= 0)
             {
                 Debug.Log(this.id[i]);
-                this.id[i] = SkillType.NONE;
+                this.id[i].type = SkillType.NONE;
             }
         }
 
@@ -136,21 +150,25 @@ public class PlayerControler : MonoBehaviour {
     }
 
     //外からプレイヤーのスキルを変更する関数
-    public void SetSkill(int position, SkillType type)
+    public void SetSkill(int position, SkillType type, int numUsage)
     {
         if(position >= MAXSKILLNUM || position < 0)
         {
             return;
         }
 
-        this.id[position] = type;
+        this.id[position].type = type;
+        this.id[position].numUsage = numUsage;
     }
     //参照用
-    public SkillType GetSkill(int position)
+    public SkillInfo GetSkill(int position)
     {
         if (position >= MAXSKILLNUM || position < 0)
         {
-            return SkillType.NONE;
+            SkillInfo info;
+            info.numUsage = 0;
+            info.type = SkillType.NONE;
+            return info;
         }
 
         return this.id[position];

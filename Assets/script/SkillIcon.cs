@@ -25,7 +25,7 @@ public class SkillIcon : MonoBehaviour {
 	void LateUpdate () {
         for (int i = 0; i < ButtonInfo.Length; ++i)
         {
-            switch (player.GetSkill(i))
+            switch (player.GetSkill(i).type)
             {
                 case SkillType.NONE:
                     this.ButtonInfo[i].GetComponent<Image>().sprite = this.noneIcon;
@@ -37,6 +37,7 @@ public class SkillIcon : MonoBehaviour {
                     this.ButtonInfo[i].GetComponent<Image>().sprite = this.slashIcon;
                     break;
             }
+            this.ButtonInfo[i].transform.GetChild(0).GetComponent<Text>().text = player.GetSkill(i).numUsage.ToString();
         }
         string[] button = { "Play1", "Play2", "Play3", "Play4"};
         for(int i = 0; i < 4; ++i)

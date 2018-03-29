@@ -6,12 +6,9 @@ public class zakoScript : MonoBehaviour
 {
     bool hitFlag = false;
     public ParticleSystem dethEffect;
-    public float dethTime = 90.0f;
     // Use this for initialization
     void Start()
     {
-        dethEffect.transform.position = this.gameObject.transform.position;
-        dethEffect.Stop();
     }
     private void OnTriggerEnter(Collider other)
     {

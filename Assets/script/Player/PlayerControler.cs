@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
+    //やっぱり個別に数を持たせる
+    public struct SkillInfo
+    {
+        public int numUsage;
+        public SkillType type;
+    }
+
     const int MAXSKILLNUM = 4;
     CharacterController controler;
     public cameraGun cameraGun;
